@@ -1,0 +1,52 @@
+{
+  "benchmark": "parallel_period_comparison_workflow",
+  "mode": "offline_simulated_io",
+  "real_model_calls": 0,
+  "rounds": 5,
+  "simulated_endpoint_latencies_ms": {
+    "current_turnover": 95.0,
+    "current_orders": 110.0,
+    "current_ranking": 125.0,
+    "previous_turnover": 95.0,
+    "previous_orders": 110.0
+  },
+  "serial_baseline": {
+    "runs_ms": [
+      601.8,
+      608.4,
+      603.9,
+      607.6,
+      602.6
+    ],
+    "mean_ms": 604.9,
+    "p50_ms": 603.9,
+    "p95_ms": 608.4
+  },
+  "parallel_gather": {
+    "runs_ms": [
+      126.7,
+      140.1,
+      125.3,
+      139.0,
+      125.6
+    ],
+    "mean_ms": 131.3,
+    "p50_ms": 126.7,
+    "p95_ms": 140.1
+  },
+  "speedup_ratio": 4.61,
+  "latency_reduction_pct": 78.3,
+  "sample_execution_metrics": {
+    "parallel_tasks": 5,
+    "wall_ms": 125.5,
+    "serial_estimate_ms": 595.0,
+    "speedup_ratio": 4.74,
+    "sub_timings_ms": {
+      "current_turnover_ms": 109.4,
+      "current_orders_ms": 125.4,
+      "current_ranking_ms": 125.4,
+      "previous_turnover_ms": 109.4,
+      "previous_orders_ms": 125.4
+    }
+  }
+}

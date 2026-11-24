@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DinePilot Agent — 餐饮双端 AI Agent 在线交互演示</title>
+  <meta name="description" content="DinePilot Agent 在线交互演示：SSE 流式轨迹、5 路并行环比诊断、HITL 写操作人工审批、两阶段异步幻觉复核与双端权限隔离。">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23f5b800'/><text x='16' y='22' text-anchor='middle' font-size='18' font-weight='800' fill='%23171b24'>D</text></svg>">
+  <link rel="stylesheet" href="./demo.css">
+  <script type="module" src="./demo.mjs"></script>
+</head>
+<body>
+  <div class="dp-shell">
+    <header class="dp-topbar">
+      <div class="dp-brand">
+        <span class="dp-logo" aria-hidden="true">D</span>
+        <div class="dp-brand-copy">
+          <strong>DinePilot Agent</strong>
+          <small>餐饮双端生产级 AI Agent · 配套 skybite-delivery</small>
+        </div>
+        <span class="dp-pill dp-pill--live"><span class="dp-dot"></span>在线交互演示 · 零后端直开</span>
+      </div>
+
+      <nav class="dp-tabs" role="tablist" aria-label="演示视角切换">
+        <button class="dp-tab active" type="button" role="tab" aria-selected="true" data-tab="merchant">商家经营副驾驶</button>
+        <button class="dp-tab" type="button" role="tab" aria-selected="false" data-tab="customer">顾客智能点餐</button>
+        <button class="dp-tab" type="button" role="tab" aria-selected="false" data-tab="benchmarks">量化评测与架构</button>
+      </nav>
+
+      <div class="dp-top-links">
+        <a class="dp-link-btn" href="https://github.com/zak78805-art/dinepilot-agent" target="_blank" rel="noopener noreferrer">
+          <span>GitHub 源码</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+        <a class="dp-link-btn dp-link-btn--ghost" href="https://github.com/zak78805-art/skybite-delivery" target="_blank" rel="noopener noreferrer">
+          <span>Java 后端</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </header>
+
+    <main class="dp-main">
+      <!-- TAB 1: MERCHANT PLAYGROUND -->
+      <section id="panel-merchant" class="dp-panel dp-grid">
+        <div class="dp-chat-card">
+          <div class="dp-card-head">
+            <div>
+              <h2>商家经营诊断与可控审批台</h2>
+              <p>完整复现 SSE 流式轨迹、5 路并行环比、HITL 菜品停售审批与两阶段幻觉复核</p>
+            </div>
+            <button id="m-reset" class="dp-btn-ghost" type="button">+ 重置演示</button>
+          </div>
+
+          <div id="m-conversation" class="dp-conversation">
+            <div id="m-welcome" class="dp-welcome">
+              <div class="dp-eyebrow">INTERACTIVE LIVE SIMULATION</div>
+              <h3>点击下方任一核心场景，立即体验生产级 Agent 全链路</h3>
+              <p class="dp-sub">本演示在浏览器内还原真实 SSE 事件帧、Redis 分布式锁审批确认与 0-Token 确定性预检规则；右侧同步滚动全链路脱敏遥测日志。</p>
+              <div class="dp-scenario-grid">
+                <button class="dp-scenario" type="button" data-m-scenario="parallel">
+                  <div class="dp-scenario-top"><span class="dp-tag dp-tag--emerald">4.61× 提速</span><span class="dp-idx">01</span></div>
+                  <b>5 路并行环比经营诊断</b>
+                  <small>asyncio.gather 并发拉取 + 整数分精确环比 + 异步复核通过</small>
+                </button>
+                <button class="dp-scenario" type="button" data-m-scenario="hitl">
+                  <div class="dp-scenario-top"><span class="dp-tag dp-tag--amber">HITL 审批</span><span class="dp-idx">02</span></div>
+                  <b>菜品停售人工审批闭环</b>
+                  <small>LLM 0 写库，生成审批卡，亲手点「确认执行 / 拒绝」触发 Redis 锁</small>
+                </button>
+                <button class="dp-scenario" type="button" data-m-scenario="hallucination">
+                  <div class="dp-scenario-top"><span class="dp-tag dp-tag--rose">0-Token 预检</span><span class="dp-idx">03</span></div>
+                  <b>两阶段幻觉复核纠偏</b>
+                  <small>0.031ms 确定性拦截「0 单写 0% 完成率」「营业额=净利润」</small>
+                </button>
+                <button class="dp-scenario" type="button" data-m-scenario="stream-stop">
+                  <div class="dp-scenario-top"><span class="dp-tag dp-tag--slate">流式控制</span><span class="dp-idx">04</span></div>
+                  <b>深度报告流式生成（可随时停止）</b>
+                  <small>流式输出途中点击「停止生成」保留部分正文，支持复制与重新生成</small>
+                </button>
+              </div>
+            </div>
+            <div id="m-messages" class="dp-messages" aria-live="polite"></div>
+          </div>
+
+          <div class="dp-composer">
+            <div id="m-status" class="dp-status">就绪 · 点击上方场景卡片或输入任意经营问题体验</div>
+            <form id="m-form" class="dp-form">
+              <input id="m-input" type="text" maxlength="500" placeholder="输入问题试试，例如：对比最近7天环比 / 停售酸菜鱼 / 测试幻觉复核…">
+              <button id="m-stop" class="dp-btn-danger" type="button" hidden>■ 停止生成</button>
+              <button id="m-send" class="dp-btn-primary" type="submit">发送</button>
+            </form>
+          </div>
+        </div>
+
+        <aside class="dp-inspector" aria-label="全链路可观测面板">
+          <div class="dp-inspector-head">
+            <strong>全链路遥测 & 审计监视器</strong>
+            <span class="dp-badge-mono">PII-FREE</span>
+          </div>
+
+          <div class="dp-kpi-row">
+            <div class="dp-kpi">
+              <span>当前 Trace ID</span>
+              <code id="ins-trace">—</code>
+            </div>
+            <div class="dp-kpi">
+              <span>首字延迟 TTFT</span>
+              <strong id="ins-ttft">—</strong>
+            </div>
+            <div class="dp-kpi">
+              <span>LLM 直接写库次数</span>
+              <strong id="ins-writes" class="dp-green">0 次</strong>
+            </div>
+            <div class="dp-kpi">
+              <span>复核预检 Token</span>
+              <strong id="ins-rev-tok">—</strong>
+            </div>
+          </div>
+
+          <div class="dp-log-section">
+            <div class="dp-log-title">实时脱敏 JSONL 事件流（`logs/telemetry.jsonl` + `approval_audit.jsonl`）</div>
+            <div id="ins-logs" class="dp-log-stream">
+              <div class="dp-log-empty">触发左侧任一场景后，这里将实时打印带同一 trace_id 的结构化事件。</div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- TAB 2: CUSTOMER PLAYGROUND -->
+      <section id="panel-customer" class="dp-panel dp-grid" hidden>
+        <div class="dp-chat-card">
+          <div class="dp-card-head">
+            <div>
+              <h2>顾客智能点餐助手（独立零信任只读边界）</h2>
+              <p>独立用户 JWT · 仅 6 个只读工具 · GET 路径白名单 · 自动剥离手机号与地址</p>
+            </div>
+            <button id="c-reset" class="dp-btn-ghost" type="button">+ 重置演示</button>
+          </div>
+
+          <div id="c-conversation" class="dp-conversation">
+            <div id="c-welcome" class="dp-welcome">
+              <div class="dp-eyebrow">CUSTOMER READ-ONLY SANDBOX</div>
+              <h3>体验顾客端预算配餐、隐私脱敏查单与越权拦截</h3>
+              <div class="dp-scenario-grid dp-scenario-grid--three">
+                <button class="dp-scenario" type="button" data-c-scenario="meal">
+                  <div class="dp-scenario-top"><span class="dp-tag dp-tag--emerald">预算配餐</span><span class="dp-idx">01</span></div>
+                  <b>两人 60 元不辣推荐</b>
+                  <small>精确分加总推荐组合，显式声明不含配送/打包费与过敏原边界</small>
+                </button>
+                <button class="dp-scenario" type="button" data-c-scenario="orders">
+                  <div class="dp-scenario-top"><span class="dp-tag dp-tag--slate">隐私投影</span><span class="dp-idx">02</span></div>
+                  <b>查询本人最近订单</b>
+                  <small>二次核验 userId 归属，自动剔除 phone / address / consignee</small>
+                </button>
+                <button class="dp-scenario" type="button" data-c-scenario="blocked">
+                  <div class="dp-scenario-top"><span class="dp-tag dp-tag--rose">安全红队</span><span class="dp-idx">03</span></div>
+                  <b>尝试越权停售菜品 / 催单</b>
+                  <small>演示跨端 401 拒绝与 GET 写副作用路径白名单拦截</small>
+                </button>
+              </div>
+            </div>
+            <div id="c-messages" class="dp-messages" aria-live="polite"></div>
+          </div>
+
+          <div class="dp-composer">
+            <div id="c-status" class="dp-status">用户凭证模式：独立 Bearer JWT（不读取管理端 Cookie）</div>
+            <form id="c-form" class="dp-form">
+              <input id="c-input" type="text" maxlength="500" placeholder="例如：两人60元不辣选餐 / 查我的订单 / 帮我取消订单…">
+              <button id="c-send" class="dp-btn-primary" type="submit">发送</button>
+            </form>
+          </div>
+        </div>
+
+        <aside class="dp-inspector">
+          <div class="dp-inspector-head">
+            <strong>双端安全隔离清单（实测通过）</strong>
+            <span class="dp-badge-mono">ZERO-TRUST</span>
+          </div>
+          <ul class="dp-sec-list">
+            <li><b>认证硬隔离</b>：顾客 JWT 访问商家 8 个端点全部 <code>401</code>；管理员 JWT 访问顾客端 2 个端点全部 <code>401</code>。</li>
+            <li><b>路径白名单</b>：显式阻断 <code>/admin/*</code> 与旧 API 写副作用 <code>GET /user/order/reminder/{id}</code>。</li>
+            <li><b>连接池零串号</b>：共享 <code>httpx.AsyncClient</code> 不挂载默认鉴权头，每次请求由协程 <code>ContextVar</code> 独立注入。</li>
+            <li><b>PII 自动剥离</b>：订单查询强制二次校验 <code>record.userId == current_customer_id</code>，剔除手机号、门牌与姓名。</li>
+            <li><b>限流与配额防刷</b>：按 <code>(role, user_id)</code> 滑动窗口限流与每日 Token 预算熔断，超限返回 <code>429 + Retry-After</code>。</li>
+          </ul>
+        </aside>
+      </section>
+
+      <!-- TAB 3: BENCHMARKS & METRICS -->
+      <section id="panel-benchmarks" class="dp-panel" hidden>
+        <div class="dp-bench-wrap">
+          <div class="dp-bench-hero">
+            <div class="dp-kpi-card"><span>百炼 36 例有效复核准确率</span><strong>100%</strong><small>33/33 有效结论 · 0% 误报 · 0% 漏报</small></div>
+            <div class="dp-kpi-card"><span>复核超时率优化（A/B 实测）</span><strong>35.7% → 8.3%</strong><small>0-Token 规则拦截 19.4%（0.031 ms）</small></div>
+            <div class="dp-kpi-card"><span>5 路并行环比诊断加速</span><strong>4.61×</strong><small>604.9 ms → 131.3 ms（延迟降 78.3%）</small></div>
+            <div class="dp-kpi-card"><span>跨栈全离线自动化测试</span><strong>351 项</strong><small>Python 286 · Node 58 · Java 7 · 0 密钥泄漏</small></div>
+          </div>
+
+          <div class="dp-bench-grid">
+            <article class="dp-bench-card">
+              <h3>两阶段经营报告幻觉复核 A/B 评测（通义千问 qwen3.7-plus）</h3>
+              <table class="dp-table">
+                <thead>
+                  <tr><th>版本</th><th>样本数</th><th>0-Token 规则拦截</th><th>有效准确率</th><th>误报 / 漏报</th><th>超时率</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Baseline（纯 LLM · 12.5s）</td><td>14</td><td>1（7.1%）</td><td>9/9（100%）</td><td>0% / 0%</td><td>35.7%（5/14）</td></tr>
+                  <tr class="dp-highlight"><td><strong>Optimized（整数预检 + 22s）</strong></td><td><strong>36</strong></td><td><strong>7（19.4%）</strong></td><td><strong>33/33（100%）</strong></td><td><strong>0.0% / 0.0%</strong></td><td><strong>8.3%（3/36）</strong></td></tr>
+                </tbody>
+              </table>
+              <p class="dp-bench-note">原始评测报告已归档于仓库 <code>docs/benchmarks/review-eval-36-live-qwen3.7-plus.json</code>，包含 2/2 Prompt Injection 防御全通过证据。</p>
+            </article>
+
+            <article class="dp-bench-card">
+              <h3>受控并行工作流 vs 串行执行延迟基准（5 路聚合接口）</h3>
+              <table class="dp-table">
+                <thead>
+                  <tr><th>编排方案</th><th>均值</th><th>P50</th><th>P95</th><th>对比提升</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>串行顺序调用（5 次 I/O）</td><td>604.9 ms</td><td>603.9 ms</td><td>608.4 ms</td><td>基线</td></tr>
+                  <tr class="dp-highlight"><td><strong>asyncio.gather 并行扇出</strong></td><td><strong>131.3 ms</strong></td><td><strong>126.7 ms</strong></td><td><strong>140.1 ms</strong></td><td><strong>4.61× 加速 / -78.3%</strong></td></tr>
+                </tbody>
+              </table>
+              <p class="dp-bench-note">含上期接口异常自动局部降级（<code>previous_available=False</code>）与整数分（cents）/ 万分比（bps）防浮点误差计算。</p>
+            </article>
+          </div>
+
+          <div class="dp-bench-screens">
+            <figure class="dp-shot">
+              <img src="./images/merchant-assistant.png" alt="商家经营助手实拍截图" loading="lazy">
+              <figcaption>本地全栈联调实拍 · 商家端经营助手（对接苍穹外卖管理端 Nginx 同源集成）</figcaption>
+            </figure>
+            <figure class="dp-shot">
+              <img src="./images/customer-assistant.png" alt="顾客点餐助手实拍截图" loading="lazy">
+              <figcaption>本地全栈联调实拍 · 顾客端智能点餐助手（独立用户 JWT，零管理端 Cookie 依赖）</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

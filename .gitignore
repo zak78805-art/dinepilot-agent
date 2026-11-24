@@ -1,0 +1,25 @@
+# Virtual environment & Python bytecode
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+
+# Secrets & local environment files (NEVER commit)
+.env
+.env.*
+!.env.example
+
+# Runtime logs, audit trails, telemetry, and generated artifacts
+logs/
+*.log
+*.jsonl
+output/
+deploy/backups/
+
+# IDE & OS metadata
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

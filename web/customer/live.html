@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="same-origin">
+  <title>点餐助手（联调版） · 苍穹外卖</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./live.css">
+  <script type="module" src="./live.mjs"></script>
+</head>
+<body>
+  <div class="customer-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">苍</span>
+          <div class="brand-copy">
+            <strong>苍穹外卖</strong>
+            <small>用户端智能点餐助手</small>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <span id="connection-status" class="status-pill">等待用户输入令牌</span>
+          <span class="badge">只读查询 · 独立用户凭证</span>
+          <button id="new-session" class="btn-secondary" type="button">
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3.2v9.6M3.2 8h9.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <span>新会话</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-wrap">
+      <section class="token-bar" aria-label="用户令牌配置">
+        <div class="token-label-group">
+          <svg class="token-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="7.5" cy="10" r="3.2" stroke="currentColor" stroke-width="1.6"/><path d="M10.7 10h6.3m-2.3 0v2.4m-2-2.4v1.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <label for="user-token">用户 JWT</label>
+        </div>
+        <input id="user-token" type="password" autocomplete="off" placeholder="粘贴用户端 JWT（仅保存在当前页面内存，不读写管理端 Cookie）">
+        <div class="token-actions">
+          <button id="apply-token" class="btn-primary" type="button">应用令牌</button>
+          <button id="clear-token" class="btn-ghost" type="button">清除</button>
+        </div>
+      </section>
+
+      <div id="auth-notice" class="auth-notice" role="alert">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.6"/><path d="M10 6.5v4.3M10 13.5h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span id="auth-text">请先输入用户端 JWT 令牌。</span>
+      </div>
+
+      <section class="chat-panel" aria-label="点餐助手对话">
+        <div id="conversation" class="conversation" tabindex="0">
+          <section id="welcome" class="welcome">
+            <div class="welcome-mark" aria-hidden="true">
+              <svg viewBox="0 0 28 28" fill="none"><path d="M14 3.5 16.9 10.7 24.5 14l-7.6 3.3L14 24.5l-2.9-7.2L3.5 14l7.6-3.3L14 3.5Z" fill="currentColor"/></svg>
+            </div>
+            <div class="welcome-eyebrow">SKY DINING ASSISTANT</div>
+            <h2>今天想吃点什么？</h2>
+            <p>支持实时查询店铺营业状态、在售分类与菜单、套餐明细以及本人历史订单。<br>严格只读边界：不下单、不支付、不透出电话地址，且与管理端凭证完全隔离。</p>
+            <div class="quick-questions">
+              <button class="quick-question" type="button" data-question="现在店铺营业吗？有哪些在售分类？">
+                <span class="quick-icon quick-icon--gold" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" fill="none"><path d="M3.5 8.5 5 4.5h10l1.5 4M4.5 8.5v7h11v-7M8.5 15.5v-4h3v4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                </span>
+                <b>营业状态与分类</b>
+                <small><span>实时查看营业状态与在售分类</span><i>↗</i></small>
+              </button>
+              <button class="quick-question" type="button" data-question="两个人，单项预算35元以内，想吃不辣的菜品，请查一下在售菜单。">
+                <span class="quick-icon quick-icon--mint" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" fill="none"><path d="M4 13.5h12M5 13.5a5 5 0 0 1 10 0M10 6v2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="10" cy="5.2" r="1" fill="currentColor"/></svg>
+                </span>
+                <b>按预算选餐推荐</b>
+                <small><span>按人数、预算与口味筛选菜单</span><i>↗</i></small>
+              </button>
+              <button class="quick-question" type="button" data-question="查一下我最近的订单状态和商品明细。">
+                <span class="quick-icon quick-icon--slate" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" fill="none"><rect x="4" y="3.5" width="12" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7.2 7.5h5.6M7.2 10.5h5.6M7.2 13.5h3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
+                <b>查我的最近订单</b>
+                <small><span>仅本人订单，不透出隐私字段</span><i>↗</i></small>
+              </button>
+            </div>
+          </section>
+          <div id="messages" class="messages-stream" role="log" aria-live="polite" aria-relevant="additions"></div>
+        </div>
+
+        <div class="composer-area">
+          <div class="composer-inner">
+            <div id="status" class="request-status" role="status">输入用户 JWT 后即可开始查询</div>
+            <form id="chat-form">
+              <label for="question" class="sr-only">输入选餐或订单问题</label>
+              <textarea id="question" rows="2" maxlength="4000" placeholder="例如：现在营业吗？帮我查主食分类里30元以内的菜品…"></textarea>
+              <div class="composer-actions">
+                <span class="composer-meta"><span id="char-count">0</span>/4000 · Enter 发送</span>
+                <button id="send" class="btn-primary btn-send" type="submit" disabled>
+                  <span>发送问题</span>
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 12.5V3.5M4.5 7 8 3.5 11.5 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </form>
+            <p class="scope-note">POST /assistant-api/customer/chat · DELETE /assistant-api/customer/sessions/{session_id}</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

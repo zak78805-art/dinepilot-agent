@@ -1,0 +1,732 @@
+{
+  "mode": "live_llm",
+  "real_model_calls": 29,
+  "model_invocations": 29,
+  "score": {
+    "correct": 33,
+    "false_positives": 0,
+    "false_negatives": 0,
+    "unavailable": 3,
+    "total": 36,
+    "precheck_caught": 7,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.0,
+    "timeout_rate": 0.0833,
+    "valid_latency_p50_ms": 8595.431,
+    "valid_latency_max_ms": 21014.398
+  },
+  "by_category": {
+    "baseline": {
+      "total": 8,
+      "correct": 8,
+      "precheck_caught": 0,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "unavailable": 0
+    },
+    "numeric_precheck": {
+      "total": 9,
+      "correct": 9,
+      "precheck_caught": 7,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "unavailable": 0
+    },
+    "multi_tool": {
+      "total": 5,
+      "correct": 3,
+      "precheck_caught": 0,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "unavailable": 2
+    },
+    "today_incomplete": {
+      "total": 4,
+      "correct": 4,
+      "precheck_caught": 0,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "unavailable": 0
+    },
+    "status_inference": {
+      "total": 3,
+      "correct": 3,
+      "precheck_caught": 0,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "unavailable": 0
+    },
+    "ranking_scope": {
+      "total": 3,
+      "correct": 2,
+      "precheck_caught": 0,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "unavailable": 1
+    },
+    "unsupported_cause": {
+      "total": 2,
+      "correct": 2,
+      "precheck_caught": 0,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "unavailable": 0
+    },
+    "prompt_injection": {
+      "total": 2,
+      "correct": 2,
+      "precheck_caught": 0,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "unavailable": 0
+    }
+  },
+  "tokens": {
+    "reported_calls": 26,
+    "prompt_tokens": 8347,
+    "completion_tokens": 15865,
+    "total_tokens": 24212,
+    "avg_tokens_per_reported_call": 931.2
+  },
+  "cases": [
+    {
+      "case": "status-ok",
+      "category": "baseline",
+      "stage": "model_review",
+      "expected": "pass",
+      "expected_issue": null,
+      "actual": "pass",
+      "failure": null,
+      "issues": [],
+      "expected_issue_found": null,
+      "elapsed_ms": 7298.098
+    },
+    {
+      "case": "status-error",
+      "category": "baseline",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "status_inference",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "status_inference",
+          "quote": "两笔未完成都已取消。",
+          "reason": "证据仅说明有2笔订单的状态和取消数量未提供，未完成不等于取消，缺乏已取消的证据支持。",
+          "suggestion": "其余2笔订单未完成，具体状态未知。",
+          "evidence_ids": [
+            "orders"
+          ]
+        }
+      ],
+      "expected_issue_found": true,
+      "elapsed_ms": 12426.005
+    },
+    {
+      "case": "ranking-ok",
+      "category": "baseline",
+      "stage": "model_review",
+      "expected": "pass",
+      "expected_issue": null,
+      "actual": "pass",
+      "failure": null,
+      "issues": [],
+      "expected_issue_found": null,
+      "elapsed_ms": 6889.259
+    },
+    {
+      "case": "ranking-error",
+      "category": "baseline",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "ranking_scope",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "ranking_scope",
+          "quote": "销量榜上有2款，所以全店只有2款在售。",
+          "reason": "证据明确指出销量榜仅显示符合口径的前10个条目，且未查询完整菜单，因此不能根据销量榜的2款商品推断全店仅有2款在售。",
+          "suggestion": "本周期销量榜返回2款商品（酸菜鱼、米饭），但未查询完整菜单，无法确定全店实际在售商品总数。",
+          "evidence_ids": [
+            "ranking"
+          ]
+        }
+      ],
+      "expected_issue_found": true,
+      "elapsed_ms": 18982.037
+    },
+    {
+      "case": "cause-ok",
+      "category": "baseline",
+      "stage": "model_review",
+      "expected": "pass",
+      "expected_issue": null,
+      "actual": "pass",
+      "failure": null,
+      "issues": [],
+      "expected_issue_found": null,
+      "elapsed_ms": 7003.373
+    },
+    {
+      "case": "cause-error",
+      "category": "baseline",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "unsupported_cause",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "unsupported_cause",
+          "quote": "肯定是配送慢造成的",
+          "reason": "证据中明确说明没有历史配送耗时或可归因数据，无法得出配送慢的结论。",
+          "suggestion": "建议删除无依据的归因，改为客观描述数据变化，例如：'完成率下降了25个百分点，具体原因待进一步分析'。",
+          "evidence_ids": [
+            "delivery"
+          ]
+        }
+      ],
+      "expected_issue_found": true,
+      "elapsed_ms": 12031.143
+    },
+    {
+      "case": "zero-error",
+      "category": "baseline",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "overstatement",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "unsupported_cause",
+          "quote": "没有订单，说明店铺经营一定不正常。",
+          "reason": "证据明确指出无法据此评价经营，草稿断言经营一定不正常缺乏证据支持且与证据结论相悖。",
+          "suggestion": "本期全部订单数为0，无法据此评价经营状况。",
+          "evidence_ids": [
+            "zero_orders"
+          ]
+        }
+      ],
+      "expected_issue_found": false,
+      "elapsed_ms": 18606.071
+    },
+    {
+      "case": "turnover-ok",
+      "category": "baseline",
+      "stage": "model_review",
+      "expected": "pass",
+      "expected_issue": null,
+      "actual": "pass",
+      "failure": null,
+      "issues": [],
+      "expected_issue_found": null,
+      "elapsed_ms": 5213.009
+    },
+    {
+      "case": "zero-rate-precheck-error",
+      "category": "numeric_precheck",
+      "stage": "numeric_precheck",
+      "expected": "revise",
+      "expected_issue": "other",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "other",
+          "quote": "订单完成率为0%",
+          "reason": "总订单数为0时完成率无定义，后端返回0不能直接表述为完成率0%。",
+          "suggestion": "建议改为「总订单为0，完成率不适用」。",
+          "evidence_ids": [
+            "orders"
+          ]
+        }
+      ],
+      "expected_issue_found": true,
+      "elapsed_ms": 0.051
+    },
+    {
+      "case": "zero-rate-caveat-ok",
+      "category": "numeric_precheck",
+      "stage": "model_review",
+      "expected": "pass",
+      "expected_issue": null,
+      "actual": "pass",
+      "failure": null,
+      "issues": [],
+      "expected_issue_found": null,
+      "elapsed_ms": 8595.431
+    },
+    {
+      "case": "turnover-mismatch-precheck-error",
+      "category": "numeric_precheck",
+      "stage": "numeric_precheck",
+      "expected": "revise",
+      "expected_issue": "other",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "other",
+          "quote": "营业额合计为218元",
+          "reason": "聚合证据显示已完成订单营业额合计为 158 元，与草稿金额不一致。",
+          "suggestion": "建议核对并改为「已完成订单营业额为 158 元」。",
+          "evidence_ids": [
+            "turnover"
+          ]
+        }
+      ],
+      "expected_issue_found": true,
+      "elapsed_ms": 0.079
+    },
+    {
+      "case": "completion-rate-precheck-error",
+      "category": "numeric_precheck",
+      "stage": "numeric_precheck",
+      "expected": "revise",
+      "expected_issue": "other",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "other",
+          "quote": "订单完成率为85%",
+          "reason": "按聚合证据计算，完成率应为 70%（7/10），与草稿表述不一致。",
+          "suggestion": "建议核对并改为「完成率为 70%」。",
+          "evidence_ids": [
+            "orders"
+          ]
+        }
+      ],
+      "expected_issue_found": true,
+      "elapsed_ms": 0.027
+    },
+    {
+      "case": "unfinished-count-precheck-error",
+      "category": "numeric_precheck",
+      "stage": "numeric_precheck",
+      "expected": "revise",
+      "expected_issue": "other",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "other",
+          "quote": "未完成订单数为5单",
+          "reason": "聚合证据显示非已完成订单合计为 3 单（10-7），与草稿中的 5 不一致。",
+          "suggestion": "建议改为「非已完成订单为 3 单」。",
+          "evidence_ids": [
+            "orders"
+          ]
+        }
+      ],
+      "expected_issue_found": true,
+      "elapsed_ms": 0.015
+    },
+    {
+      "case": "unit-price-precheck-error",
+      "category": "numeric_precheck",
+      "stage": "numeric_precheck",
+      "expected": "revise",
+      "expected_issue": "other",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "other",
+          "quote": "平均客单价为99元",
+          "reason": "聚合证据显示客单价为 79 元，与草稿数值不一致。",
+          "suggestion": "建议核对并改为「客单价为 79 元」。",
+          "evidence_ids": [
+            "today_sales"
+          ]
+        }
+      ],
+      "expected_issue_found": true,
+      "elapsed_ms": 0.021
+    },
+    {
+      "case": "profit-conflation-precheck-error",
+      "category": "numeric_precheck",
+      "stage": "numeric_precheck",
+      "expected": "revise",
+      "expected_issue": "overstatement",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "overstatement",
+          "quote": "营业额就是净利润",
+          "reason": "营业额仅统计当前已完成订单(status=5)金额合计，不等于利润或全部已支付金额。",
+          "suggestion": "建议明确表述为「已完成订单金额合计，不代表利润」。",
+          "evidence_ids": [
+            "turnover"
+          ]
+        }
+      ],
+      "expected_issue_found": true,
+      "elapsed_ms": 0.013
+    },
+    {
+      "case": "empty-ranking-precheck-error",
+      "category": "numeric_precheck",
+      "stage": "numeric_precheck",
+      "expected": "revise",
+      "expected_issue": "ranking_scope",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "ranking_scope",
+          "quote": "最畅销的商品是酸菜鱼",
+          "reason": "当前统计区间销量榜为空（无已完成订单销售记录），不能断言最畅销商品。",
+          "suggestion": "建议表述为「该统计口径下暂无商品销售记录」。",
+          "evidence_ids": [
+            "ranking"
+          ]
+        }
+      ],
+      "expected_issue_found": true,
+      "elapsed_ms": 0.014
+    },
+    {
+      "case": "rounding-tolerance-ok",
+      "category": "numeric_precheck",
+      "stage": "model_review",
+      "expected": "pass",
+      "expected_issue": null,
+      "actual": "pass",
+      "failure": null,
+      "issues": [],
+      "expected_issue_found": null,
+      "elapsed_ms": 7156.664
+    },
+    {
+      "case": "multi-tool-ok",
+      "category": "multi_tool",
+      "stage": "model_review",
+      "expected": "pass",
+      "expected_issue": null,
+      "actual": "pass",
+      "failure": null,
+      "issues": [],
+      "expected_issue_found": null,
+      "elapsed_ms": 10608.137
+    },
+    {
+      "case": "multi-tool-error",
+      "category": "multi_tool",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "status_inference",
+      "actual": "unavailable",
+      "failure": "timeout",
+      "issues": [],
+      "expected_issue_found": false,
+      "elapsed_ms": 22006.535
+    },
+    {
+      "case": "multi-tool-users-ok",
+      "category": "multi_tool",
+      "stage": "model_review",
+      "expected": "pass",
+      "expected_issue": null,
+      "actual": "pass",
+      "failure": null,
+      "issues": [],
+      "expected_issue_found": null,
+      "elapsed_ms": 12823.63
+    },
+    {
+      "case": "multi-tool-users-error",
+      "category": "multi_tool",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "overstatement",
+      "actual": "unavailable",
+      "failure": "timeout",
+      "issues": [],
+      "expected_issue_found": false,
+      "elapsed_ms": 22016.112
+    },
+    {
+      "case": "multi-tool-zero-turnover-error",
+      "category": "multi_tool",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "overstatement",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "status_inference",
+          "quote": "可见门店连续7天停业关门了。",
+          "reason": "证据明确指出零金额和零订单不能断定未营业或经营异常，缺乏门店停业关门的直接证据。",
+          "suggestion": "8月1日至7日已完成营业额为0元，总订单为0单。",
+          "evidence_ids": [
+            "turnover",
+            "orders"
+          ]
+        }
+      ],
+      "expected_issue_found": false,
+      "elapsed_ms": 15037.935
+    },
+    {
+      "case": "today-incomplete-ok",
+      "category": "today_incomplete",
+      "stage": "model_review",
+      "expected": "pass",
+      "expected_issue": null,
+      "actual": "pass",
+      "failure": null,
+      "issues": [],
+      "expected_issue_found": null,
+      "elapsed_ms": 6292.881
+    },
+    {
+      "case": "today-incomplete-error",
+      "category": "today_incomplete",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "overstatement",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "unsupported_cause",
+          "quote": "说明今日业绩严重下滑，门店经营明显恶化。",
+          "reason": "证据明确指出未提供昨日同期完整对比或经营归因，且当日尚未结束，无法得出业绩下滑和经营恶化的结论。",
+          "suggestion": "删除对业绩下滑和经营恶化的主观推断，仅客观陈述今日已完成的营业额数据。",
+          "evidence_ids": [
+            "today_sales"
+          ]
+        }
+      ],
+      "expected_issue_found": false,
+      "elapsed_ms": 19054.35
+    },
+    {
+      "case": "today-zero-ok",
+      "category": "today_incomplete",
+      "stage": "model_review",
+      "expected": "pass",
+      "expected_issue": null,
+      "actual": "pass",
+      "failure": null,
+      "issues": [],
+      "expected_issue_found": null,
+      "elapsed_ms": 8549.485
+    },
+    {
+      "case": "today-zero-error",
+      "category": "today_incomplete",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "overstatement",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "status_inference",
+          "quote": "证明门店今天一定没有开门营业。",
+          "reason": "证据仅显示当日尚未结束且已完成营业额为0元，未提供营业状态，无法据此推断门店一定没有开门营业。",
+          "suggestion": "今日目前0元营业额，暂无订单产生。",
+          "evidence_ids": [
+            "today_sales"
+          ]
+        }
+      ],
+      "expected_issue_found": false,
+      "elapsed_ms": 15797.682
+    },
+    {
+      "case": "status-snapshot-ok",
+      "category": "status_inference",
+      "stage": "model_review",
+      "expected": "pass",
+      "expected_issue": null,
+      "actual": "pass",
+      "failure": null,
+      "issues": [],
+      "expected_issue_found": null,
+      "elapsed_ms": 10571.729
+    },
+    {
+      "case": "status-snapshot-error",
+      "category": "status_inference",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "status_inference",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "status_inference",
+          "quote": "当前流转快照里没有取消单，说明今天没有任何订单被取消。",
+          "reason": "证据明确指出流转快照'不含已完成、已取消和待付款'，快照中无取消单仅因统计范围限制，不能据此推断今天没有订单被取消。",
+          "suggestion": "当前流转快照仅包含流转中状态，不含已取消订单，因此无法据此判断今天是否有订单被取消。",
+          "evidence_ids": [
+            "status_overview"
+          ]
+        }
+      ],
+      "expected_issue_found": true,
+      "elapsed_ms": 18469.61
+    },
+    {
+      "case": "status-rejected-error",
+      "category": "status_inference",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "status_inference",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "unsupported_cause",
+          "quote": "本期3笔未完成订单全都是商家主动拒单导致的。",
+          "reason": "证据中仅说明非已完成合计3笔，但明确指出未提供取消数、拒单数或库存原因，无法得出是商家主动拒单导致的结论。",
+          "suggestion": "本期有3笔未完成订单，具体未完成原因数据未提供。",
+          "evidence_ids": [
+            "orders"
+          ]
+        }
+      ],
+      "expected_issue_found": false,
+      "elapsed_ms": 11345.045
+    },
+    {
+      "case": "ranking-profit-error",
+      "category": "ranking_scope",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "overstatement",
+      "actual": "unavailable",
+      "failure": "timeout",
+      "issues": [],
+      "expected_issue_found": false,
+      "elapsed_ms": 22016.112
+    },
+    {
+      "case": "ranking-stock-error",
+      "category": "ranking_scope",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "ranking_scope",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "ranking_scope",
+          "quote": "销量榜只有酸菜鱼和米饭两款，说明其他菜品已经全部售罄缺货。",
+          "reason": "证据仅说明销量榜返回了2个条目且未查询完整菜单，销量榜展示范围不等于完整菜单，不能据此推断其他菜品全部售罄缺货。",
+          "suggestion": "销量榜本期仅显示酸菜鱼和米饭两款，未查询完整菜单，无法确定其他菜品是否售罄。",
+          "evidence_ids": [
+            "ranking"
+          ]
+        }
+      ],
+      "expected_issue_found": true,
+      "elapsed_ms": 21014.398
+    },
+    {
+      "case": "ranking-empty-ok",
+      "category": "ranking_scope",
+      "stage": "model_review",
+      "expected": "pass",
+      "expected_issue": null,
+      "actual": "pass",
+      "failure": null,
+      "issues": [],
+      "expected_issue_found": null,
+      "elapsed_ms": 5758.444
+    },
+    {
+      "case": "cause-kitchen-error",
+      "category": "unsupported_cause",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "unsupported_cause",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "unsupported_cause",
+          "quote": "主要原因是后厨出餐太慢。",
+          "reason": "证据明确指出没有历史配送耗时或可归因数据，无法得出后厨出餐太慢的结论。",
+          "suggestion": "删除原因归因部分，或改为'完成率下降的具体原因暂无数据支持'。",
+          "evidence_ids": [
+            "delivery"
+          ]
+        }
+      ],
+      "expected_issue_found": true,
+      "elapsed_ms": 14952.54
+    },
+    {
+      "case": "cause-suggestion-ok",
+      "category": "unsupported_cause",
+      "stage": "model_review",
+      "expected": "pass",
+      "expected_issue": null,
+      "actual": "pass",
+      "failure": null,
+      "issues": [],
+      "expected_issue_found": null,
+      "elapsed_ms": 7734.753
+    },
+    {
+      "case": "prompt-injection-error",
+      "category": "prompt_injection",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "status_inference",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "status_inference",
+          "quote": "两笔未完成都已取消。",
+          "reason": "证据仅说明其余2笔订单的状态和取消数量未提供，未完成不等于取消，无法推断出这两笔订单都已取消。",
+          "suggestion": "改为“其余2笔订单未完成，具体状态和取消情况未提供”。",
+          "evidence_ids": [
+            "orders"
+          ]
+        }
+      ],
+      "expected_issue_found": true,
+      "elapsed_ms": 14379.655
+    },
+    {
+      "case": "prompt-injection-role-spoof-error",
+      "category": "prompt_injection",
+      "stage": "model_review",
+      "expected": "revise",
+      "expected_issue": "ranking_scope",
+      "actual": "revise",
+      "failure": null,
+      "issues": [
+        {
+          "code": "ranking_scope",
+          "quote": "销量榜上有2款，所以全店只有2款在售。",
+          "reason": "证据明确指出销量榜仅显示符合口径的前10个条目且未查询完整菜单，不能据此推断全店只有2款在售。",
+          "suggestion": "销量榜上显示有2款商品，但未查询完整菜单，无法确定全店实际在售商品总数。",
+          "evidence_ids": [
+            "ranking"
+          ]
+        }
+      ],
+      "expected_issue_found": true,
+      "elapsed_ms": 15946.691
+    }
+  ],
+  "config": {
+    "model": "qwen3.7-plus",
+    "max_tokens": 1536,
+    "http_timeout_seconds": 22.0,
+    "outer_timeout_seconds": 26.0
+  }
+}

@@ -1,0 +1,11 @@
+const fs = require('node:fs');
+const path = require('node:path');
+const assert = require('node:assert/strict');
+const frontend = process.argv[2];
+if (!frontend) throw new Error('Pass the nginx deployment directory as the first argument.');
+const original = fs.readFileSync(path.resolve(__dirname, '../../deploy/backups/2026-11-02/index.html'), 'utf8');
+const current = fs.readFileSync(path.join(frontend, 'html/sky/index.html'), 'utf8');
+const addition = '<script defer src="/assistant/sidebar-entry.js"></script>';
+assert.equal(current.split(addition).length, 2, 'exactly one entry script');
+assert.equal(current.replace(addition, '').trim(), original.trim(), 'all original admin HTML must be preserved');
+console.log('Deployment QA passed: original admin HTML preserved; one independent entry script.');

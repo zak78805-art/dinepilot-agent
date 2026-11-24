@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 280" fill="none">
+  <defs>
+    <linearGradient id="tray" x1="44" y1="39" x2="246" y2="212" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff8df"/><stop offset="1" stop-color="#f4d5a2"/>
+    </linearGradient>
+    <linearGradient id="chicken" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#ea9a55"/><stop offset="1" stop-color="#b85036"/>
+    </linearGradient>
+    <pattern id="grain" width="17" height="13" patternUnits="userSpaceOnUse">
+      <path d="m2 5 5-2m6 7 2-3M1 12l4-1" stroke="#d5b36c" stroke-opacity=".65" stroke-linecap="round" stroke-width="1.5"/>
+    </pattern>
+  </defs>
+  <path d="M291 137c0 66-55 120-123 120-48 0-91-26-112-66M75 70c25-32 56-49 94-49 38 0 70 17 91 39" stroke="#fff4bb" stroke-width="1.5"/>
+  <path d="M49 87v27m-13-13h27M271 202v18m-9-9h18M235 28v18m-9-9h18" stroke="#fff8d2" stroke-width="3.5" stroke-linecap="round"/>
+  <ellipse cx="156" cy="228" rx="115" ry="19" fill="#9d5f2e" opacity=".16"/>
+  <g transform="translate(43 57) rotate(-14 110 94)">
+    <rect x="0" y="9" width="213" height="172" rx="34" fill="#65422d"/>
+    <rect x="0" width="213" height="172" rx="34" fill="#34291f"/>
+    <rect x="9" y="9" width="195" height="154" rx="27" fill="url(#tray)"/>
+    <path d="M110 18v136m8-72h77" stroke="#b9935d" stroke-width="1.5" opacity=".65"/>
+    <path d="M31 41q13-15 27-12 17-7 33 6 13 14 11 50 3 37-14 54-12 15-37 9-26-3-30-21-8-32 0-60 1-16 10-26Z" fill="#edcc88"/>
+    <path d="M30 36q13-15 27-12 17-7 33 6 13 14 11 50 3 37-14 54-12 15-37 9-26-3-30-21-8-32 0-60 1-16 10-26Z" fill="#fff0cc"/>
+    <path d="M30 36q13-15 27-12 17-7 33 6 13 14 11 50 3 37-14 54-12 15-37 9-26-3-30-21-8-32 0-60 1-16 10-26Z" fill="url(#grain)"/>
+    <path d="m52 67 4 1m8-7 3 3m-8 8 3-1m7 0 4 3m-19 3 2 2" stroke="#3b562f" stroke-width="2" stroke-linecap="round"/>
+    <path d="M152 69c-17 0-31-15-31-29 16-1 28 8 31 29Z" fill="#507244"/>
+    <path d="M152 69c-6-18-2-36 11-46 12 15 7 32-11 46Z" fill="#81a657"/>
+    <path d="M153 70c7-19 23-28 38-23-6 13-18 24-38 23Z" fill="#3d6441"/>
+    <path d="m131 47 21 22m11-35-11 35m29-15-26 15" stroke="#c3d38f" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M126 109c1-9 8-15 19-15 11 0 18 9 17 18-1 9-9 15-20 14-11 0-17-7-16-17Z" fill="url(#chicken)"/>
+    <path d="M157 105c4-10 14-14 24-11 10 4 13 12 10 21-4 8-14 11-24 8-9-2-14-10-10-18Z" fill="url(#chicken)"/>
+    <path d="M142 131c5-10 15-14 26-11 10 4 14 13 9 21-5 9-15 12-25 9-10-4-15-10-10-19Z" fill="url(#chicken)"/>
+    <path d="m135 106 7-4m26 5 7-4m-22 33 8-4" stroke="#ffcf8e" stroke-opacity=".75" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g stroke-linecap="round">
+    <path d="m233 211 51-158m-34 164 51-158" stroke="#543426" stroke-width="9"/>
+    <path d="m270 97 14-44m3 50 14-44" stroke="#9e543a" stroke-width="9"/>
+    <path d="m236 202 30-93m-14 100 31-94" stroke="#b7794a" stroke-width="2"/>
+  </g>
+</svg>

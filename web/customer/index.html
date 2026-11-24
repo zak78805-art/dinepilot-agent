@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' file:; style-src 'self' file:; img-src 'self' file:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+  <title>点餐助手 · 苍穹外卖</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./demo.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><span class="brand-icon" aria-hidden="true">苍</span><div><strong>苍穹外卖</strong><small>点餐助手</small></div></div>
+      <span class="demo-badge"><span aria-hidden="true"></span> 离线演示</span>
+    </div>
+  </header>
+  <main class="layout">
+    <aside class="rail" aria-label="快捷场景">
+      <section class="hero" aria-labelledby="hero-title">
+        <p class="hero-caption"><span aria-hidden="true">✦</span> 苍穹小饭桌</p>
+        <h1 id="hero-title">今天吃点<br>什么？</h1>
+        <p class="hero-desc">按人数、预算和口味搭一餐。</p>
+        <img class="bento" src="./bento.svg" alt="">
+      </section>
+      <section class="quick" aria-labelledby="quick-title">
+        <div class="quick-heading"><h2 id="quick-title">快速开始</h2><span>点一下填入问题</span></div>
+        <button class="shortcut" type="button" data-prompt="两个人，预算 60 元，不辣">
+          <span class="shortcut-icon gold" aria-hidden="true">餐</span><span><strong>帮我选餐</strong><small>人数 · 预算 · 口味</small></span><span class="arrow" aria-hidden="true">↗</span>
+        </button>
+        <button class="shortcut" type="button" data-prompt="查我的最近订单">
+          <span class="shortcut-icon mint" aria-hidden="true">单</span><span><strong>查我的订单</strong><small>最近状态和商品明细</small></span><span class="arrow" aria-hidden="true">↗</span>
+        </button>
+      </section>
+      <p class="rail-note">此页面使用虚构菜单和订单，不读取账号或交易数据。</p>
+    </aside>
+    <section class="panel" aria-labelledby="chat-title">
+      <header class="panel-header">
+        <div class="panel-brand"><span class="assistant-icon" aria-hidden="true">✦</span><div><h2 id="chat-title">苍穹点餐助手</h2><p>选餐推荐 · 订单查询</p></div></div>
+        <button type="button" class="reset" id="reset"><span aria-hidden="true">＋</span> 新对话</button>
+      </header>
+      <div id="feed" class="feed" tabindex="0" aria-label="对话内容">
+        <div id="welcome" class="welcome">
+          <div class="welcome-icon" aria-hidden="true">✦</div>
+          <h3>这顿饭，想怎么吃？</h3>
+          <p>告诉我几个人、预算多少、想吃什么口味。<br class="desktop-break">也可以查看演示订单的状态和明细。</p>
+          <div class="examples">
+            <button type="button" data-prompt="两个人，预算 60 元，不辣">双人 · 60 元 · 不辣</button>
+            <button type="button" data-prompt="一个人，预算 35 元，微辣">单人 · 35 元 · 微辣</button>
+          </div>
+        </div>
+        <div id="turns" role="log" aria-label="聊天记录"></div>
+        <p id="working" class="working" role="status" hidden><span aria-hidden="true">✦</span> 正在整理演示结果…</p>
+      </div>
+      <footer class="composer">
+        <p id="error" class="error" role="alert" hidden></p>
+        <form id="composer">
+          <label class="sr-only" for="question">输入选餐或订单问题</label>
+          <div class="input-wrap">
+            <textarea id="question" rows="2" maxlength="280" placeholder="比如：两人 60 元，想吃不辣的…"></textarea>
+            <button id="send" type="submit" disabled>发送 <span aria-hidden="true">↑</span></button>
+          </div>
+        </form>
+        <p class="composer-note">仅供体验 · 不下单，不支付</p>
+      </footer>
+    </section>
+  </main>
+  <dialog id="details" aria-labelledby="detail-title">
+    <div class="dialog-top">
+      <div><p class="detail-kicker">模拟订单详情</p><h2 id="detail-title"></h2></div>
+      <button type="button" class="close" id="close-details" aria-label="关闭订单详情">×</button>
+    </div>
+    <div id="detail-body"></div>
+  </dialog>
+  <noscript><p class="no-script">请启用 JavaScript 以使用此离线演示。</p></noscript>
+</body>
+</html>

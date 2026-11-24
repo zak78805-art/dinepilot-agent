@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="same-origin">
+  <title>经营助手 · 苍穹外卖</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="管理导航">
+      <a class="brand" href="/" aria-label="返回苍穹外卖管理端">
+        <span class="brand-mark" aria-hidden="true">苍</span>
+        <span class="brand-text">
+          <strong>苍穹外卖</strong>
+          <small>MERCHANT CONSOLE</small>
+        </span>
+      </a>
+
+      <div class="nav-group">
+        <div class="nav-caption">运营管理</div>
+        <a class="nav-item" href="/#/dashboard">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3.5 9.2 10 3.8l6.5 5.4V16a1 1 0 0 1-1 1h-3.8v-4.2H8.3V17H4.5a1 1 0 0 1-1-1V9.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <span>工作台</span>
+        </a>
+        <a class="nav-item" href="/#/statistics">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3.5 15.5h13M5.5 12.5l3-3.2 2.6 2.1 3.6-4.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14.7" cy="6.8" r="1.2" fill="currentColor"/></svg>
+          <span>数据统计</span>
+        </a>
+        <a class="nav-item" href="/#/order">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="4" y="3.5" width="12" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7.2 7.5h5.6M7.2 10.5h5.6M7.2 13.5h3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span>订单管理</span>
+        </a>
+        <a class="nav-item" href="/#/setmeal">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3.5" y="7.5" width="13" height="9" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M10 7.5v9M3.5 10.5h13M10 7.5c0-1.9-1.1-3-2.5-3S5.5 5.4 6.5 6.8c.5.7 1.8.7 3.5.7Zm0 0c0-1.9 1.1-3 2.5-3s2 .9 1 2.3c-.5.7-1.8.7-3.5.7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <span>套餐管理</span>
+        </a>
+        <a class="nav-item" href="/#/dish">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3.5 14.5h13M4.5 14.5a5.5 5.5 0 0 1 11 0M10 6.5V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="10" cy="5.5" r="1.1" fill="currentColor"/></svg>
+          <span>菜品管理</span>
+        </a>
+        <a class="nav-item" href="/#/category">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="5.5" height="5.5" rx="1.3" stroke="currentColor" stroke-width="1.6"/><rect x="11" y="3.5" width="5.5" height="5.5" rx="1.3" stroke="currentColor" stroke-width="1.6"/><rect x="3.5" y="11" width="5.5" height="5.5" rx="1.3" stroke="currentColor" stroke-width="1.6"/><rect x="11" y="11" width="5.5" height="5.5" rx="1.3" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span>分类管理</span>
+        </a>
+        <a class="nav-item" href="/#/employee">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="6.8" r="2.8" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 16.2c.7-2.6 2.7-4 5.5-4s4.8 1.4 5.5 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span>员工管理</span>
+        </a>
+      </div>
+
+      <div class="nav-group nav-group--ai">
+        <div class="nav-caption">智能助手</div>
+        <a class="nav-item active" href="/assistant/" aria-current="page">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.8 11.9 7.8 17 9.8l-5.1 2-1.9 5.2-1.9-5.2L3 9.8l5.1-2L10 2.8Z" fill="currentColor"/></svg>
+          <span>经营助手</span>
+          <span class="nav-tag">AI</span>
+        </a>
+      </div>
+
+      <div class="sidebar-note">
+        <div class="sidebar-note-title"><span class="live-dot" aria-hidden="true"></span>实时对接业务接口</div>
+        <p>11 个受控经营工具与异步复核；菜品起售/停售需经管理员点击审批后执行。</p>
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">
+            <span class="assistant-symbol" aria-hidden="true">
+              <svg viewBox="0 0 20 20" fill="none"><path d="M10 2.8 11.9 7.8 17 9.8l-5.1 2-1.9 5.2-1.9-5.2L3 9.8l5.1-2L10 2.8Z" fill="currentColor"/></svg>
+            </span>
+            <div>
+              <h1>经营助手</h1>
+              <span class="topbar-subtitle">自然语言经营分析 · 并行环比诊断 · 审批与异步复核</span>
+            </div>
+          </div>
+          <span class="beta">受控分析 · HITL 审批</span>
+        </div>
+
+        <div class="topbar-actions">
+          <span id="connection-status" class="connection-status">登录状态检查中</span>
+          <button id="new-session" class="secondary" type="button">
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3.2v9.6M3.2 8h9.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <span>新会话</span>
+          </button>
+          <a class="back-link" href="/#/dashboard">
+            <span>返回管理端</span>
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5 11 11 5M6.5 5H11v4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <div id="auth-notice" class="auth-notice" role="alert" hidden>
+          <div class="auth-notice-body">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.6"/><path d="M10 6.5v4.3M10 13.5h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span id="auth-text">请先在管理端登录，再返回此页。</span>
+          </div>
+          <a class="auth-notice-link" href="/#/login">前往登录 →</a>
+        </div>
+
+        <section class="chat-panel" aria-label="经营数据对话">
+          <div id="conversation" class="conversation" tabindex="0" aria-label="对话记录">
+            <section id="welcome" class="welcome">
+              <div class="welcome-mark" aria-hidden="true">
+                <svg viewBox="0 0 28 28" fill="none"><path d="M14 3.5 16.9 10.7 24.5 14l-7.6 3.3L14 24.5l-2.9-7.2L3.5 14l7.6-3.3L14 3.5Z" fill="currentColor"/></svg>
+              </div>
+              <div class="welcome-eyebrow">SKY MERCHANT INTELLIGENCE</div>
+              <h2>把经营问题，交给真实数据。</h2>
+              <p>直接输入你想了解的日期范围、营业额趋势、订单完成率或热销菜品。<br>系统调用只读业务工具作答，并在后台异步复核文字结论与统计口径。</p>
+
+              <div class="capability-pills" aria-hidden="true">
+                <span>11 个受控经营工具</span>
+                <span>5 路并行环比诊断</span>
+                <span>菜品状态人工审批 (HITL)</span>
+                <span>经营报告异步复核</span>
+              </div>
+
+              <div class="quick-questions">
+                <button class="quick-question" type="button" data-question="查询今天的经营数据，说明营业额、已完成订单数和客单价，并注明统计口径。">
+                  <div class="quick-question-top">
+                    <span class="quick-icon quick-icon--gold" aria-hidden="true">
+                      <svg viewBox="0 0 20 20" fill="none"><path d="M4 14.5h12M6 12V9M10 12V6M14 12V8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                    </span>
+                    <span class="quick-index">01</span>
+                  </div>
+                  <b>今日经营概况</b>
+                  <small><span>营业额 · 已完成订单 · 客单价</span><i>↗</i></small>
+                </button>
+                <button class="quick-question" type="button" data-question="对比最近7天与前7天的经营情况，并发拉取营业额、订单完成率和热销商品做环比诊断，并注明包含今天的口径限制。">
+                  <div class="quick-question-top">
+                    <span class="quick-icon quick-icon--emerald" aria-hidden="true">
+                      <svg viewBox="0 0 20 20" fill="none"><path d="M4 13.5 8 9.5l3 2.5 5-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    <span class="quick-index">02</span>
+                  </div>
+                  <b>最近七天并行环比诊断</b>
+                  <small><span>5 路并发拉取 · 精确分/万分比环比</span><i>↗</i></small>
+                </button>
+                <button class="quick-question" type="button" data-question="查询2026年8月1日至8月7日的营业额、订单完成情况和热销商品，并说明统计口径。">
+                  <div class="quick-question-top">
+                    <span class="quick-icon quick-icon--slate" aria-hidden="true">
+                      <svg viewBox="0 0 20 20" fill="none"><rect x="3.5" y="4.5" width="13" height="11.5" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 8.5h13M7 3v3M13 3v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                    </span>
+                    <span class="quick-index">03</span>
+                  </div>
+                  <b>自定义历史周期查询</b>
+                  <small><span>先填入模板，再按需修改日期</span><i>↗</i></small>
+                </button>
+                <button class="quick-question" type="button" data-question="帮我发起将「酸菜鱼」设为停售的审批单，原因是今日食材售罄。">
+                  <div class="quick-question-top">
+                    <span class="quick-icon quick-icon--amber" aria-hidden="true">
+                      <svg viewBox="0 0 20 20" fill="none"><path d="M10 3.5 16 6.2v4.3c0 3.4-2.5 5.6-6 6.5-3.5-.9-6-3.1-6-6.5V6.2L10 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m7.6 10.2 1.7 1.7 3.4-3.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    <span class="quick-index">04</span>
+                  </div>
+                  <b>菜品停售人工审批 (HITL)</b>
+                  <small><span>仅生成待审批单，点击确认才生效</span><i>↗</i></small>
+                </button>
+              </div>
+            </section>
+            <div id="messages" class="messages-stream" role="log" aria-live="polite" aria-relevant="additions"></div>
+          </div>
+
+          <div class="composer-area">
+            <div class="composer-inner">
+              <div id="status" class="request-status" role="status">准备就绪，可查询今日或历史经营数据</div>
+              <form id="chat-form">
+                <label for="question" class="sr-only">输入经营问题</label>
+                <textarea id="question" rows="2" maxlength="4000" placeholder="输入经营问题，例如：对比最近7天与前7天的营业额和完成率，或发起菜品停售审批…"></textarea>
+                <div class="composer-actions">
+                  <span class="composer-meta"><span id="char-count">0</span>/4000<span class="keyboard-hint"> · Enter 发送，Shift + Enter 换行</span></span>
+                  <div class="composer-buttons">
+                    <button id="stop-stream" class="stop-btn" type="button" hidden>
+                      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="4" y="4" width="8" height="8" rx="1.5" fill="currentColor"/></svg>
+                      <span>停止生成</span>
+                    </button>
+                    <button id="send" type="submit">
+                      <span>发送问题</span>
+                      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 12.5V3.5M4.5 7 8 3.5 11.5 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <p class="scope-note">11 个受控工具：今日经营 / 营业额趋势 / 订单统计 / 销量排名 / 并行环比诊断 / 订单查询 / 菜品目录 / 用户增长 / 菜品起停售人工审批 · 报告异步复核，写操作须人工点击确认。</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <noscript>请启用 JavaScript 后使用经营助手。</noscript>
+</body>
+</html>

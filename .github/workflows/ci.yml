@@ -1,0 +1,37 @@
+name: Sky Agent CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  python-offline-suite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+      - name: Run Python unit tests & security red-team matrix (offline)
+        run: python -B -m pytest tests -q -p no:cacheprovider
+      - name: Run 36-case hallucination review offline benchmark
+        run: python -B -m tools.report_review_eval --mode offline
+      - name: Run parallel workflow latency benchmark
+        run: python -B -m tools.parallel_workflow_bench --rounds 3
+      - name: Run pre-publish secret & local-path leak scan
+        run: python -B tools/secret_scan.py
+
+  frontend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run merchant & customer frontend test suites
+        run: node --test tests/web/core.test.mjs tests/web/customer-web.test.cjs tests/web/customer-live.test.mjs
