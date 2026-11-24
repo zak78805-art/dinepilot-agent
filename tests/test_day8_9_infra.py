@@ -1,4 +1,6 @@
 """Day 8-9 tests: shared HTTP pool, sliding-window context compaction, and Redis persistence."""
+from __future__ import annotations
+
 import asyncio
 from types import SimpleNamespace
 
